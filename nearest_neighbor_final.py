@@ -339,7 +339,7 @@ class mydata(Frame):
 	#-------------------------------------------------------------------------  
 	def HelpAbout(self):
 	#version explanations        
-		self.dialog=MessageDialog(self, title="About Simple GIS for Taiwan", message_text="Copytight(C)2011\nYan-ting (Vicky) Liau\n'Schoold of Geographical Sciences and Urban Planning, Arizona State University\nE-mail: yliau@asu.edu\nAll rights reserved")
+		self.dialog=MessageDialog(self, title="About Simple GIS for Taiwan", message_text="Copytight(C)2016\nYan-ting (Vicky) Liau\nE-mail: yliau1@hotmail.com\nAll rights reserved")
 		result=self.dialog.activate()	
 	#-------------------------------------------------------------------------  
 	def HelpTutorial(self):
