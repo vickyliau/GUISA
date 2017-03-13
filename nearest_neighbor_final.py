@@ -4,7 +4,7 @@ import sys, Pmw, marshal, Tkinter, math, tkFont, UserList, string
 from Pmw import MessageDialog
 import numpy as num
 import tkFileDialog
-#import pysal
+import pysal
 import matplotlib
 matplotlib.use('TkAgg')
 import matplotlib.pyplot as plt
@@ -19,6 +19,7 @@ class mydata(Frame):
 	def __init__(self, parent):
         	Frame.__init__(self, parent)   
                	self.parent = parent
+		
 		self.menubar() #program starts with menubar
 
 		#self.op=fileopen() #open fileIO.py when starting
@@ -28,7 +29,7 @@ class mydata(Frame):
 		self.f=Frame(self.parent, width=600, height=680) 
 		self.f1=Frame(self.parent, width=500, height=400)
 		self.f2=Frame(self.parent, width=500, height=280)
-		
+			
 		#set canvas
 		self.parent.canvas=Canvas(self.f, width=600, height=680, bg='white')
 		self.parent.canvas1=Canvas(self.f1, width=500, height=400, bg='white')
@@ -46,68 +47,68 @@ class mydata(Frame):
 		#self.parent.canvas2.pack(side=RIGHT)
 		
 		# Bind mouse events to canvas
-		self.parent.canvas.bind("<Button-1>", self.clicked) #bind the left button of the mouse with function
-		self.parent.canvas.bind("<Enter>", self.moved) #The mouse pointer entered the widget (this event doesn't mean that the user pressed the Enter key!).http://www.pythonware.com/library/tkinter/introduction/events-and-bindings.htm
-		#self.parent.canvas1.bind("<Button-1>", self.pressbar)
-
+		self.parent.canvas.bind('<Button-1>', self.clicked) #bind the left button of the mouse with function
+		self.parent.canvas.bind('<Enter>', self.moved) #The mouse pointer entered the widget (this event doesn't mean that the user pressed the Enter key!).http://www.pythonware.com/library/tkinter/introduction/events-and-bindings.htm
+		#self.parent.canvas1.bind('<Button-1>', self.pressbar)
+		
 #-------------------------------------------------------------------------
 		
 	def clicked(self,event):
 		self.OrgX, self.OrgY = event.x, event.y
-		s = "Simple GIS: "+"Clicked Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY) #change back to original coordinates?  
+		s = 'Simple GIS: '+'Clicked Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY) #change back to original coordinates?  
         	self.parent.title(s) #if clicking the left button of the mouse, show the coordinate on the top of window 
 				
 	def moved(self,event):
 		self.OrgX, self.OrgY = event.x, event.y 
-		s = "Simple GIS: "+"Cursor Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY) #change back to original coordinates?
+		s = 'Simple GIS: '+'Cursor Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY) #change back to original coordinates?
         	self.parent.title(s)
 		
 	def menubar(self):
 		menubar = Menu(self.parent)
 	# Create the File Pulldown, and add it to the menu bar
 		fileMenu = Menu(menubar, tearoff=0)
-		fileMenu.add_command(label = "New", command = self.FileNew)
-		fileMenu.add_command(label = "Open", command = self.FileOpen)
-		fileMenu.add_command(label = "Save", command = self.FileSave)
+		fileMenu.add_command(label = 'New', command = self.FileNew)
+		fileMenu.add_command(label = 'Open', command = self.FileOpen)
+		fileMenu.add_command(label = 'Save', command = self.FileSave)
 		fileMenu.add_separator()
-		fileMenu.add_command(label="Exit", command=self.quit)
-		menubar.add_cascade(label="File", menu=fileMenu)
+		fileMenu.add_command(label='Exit', command=self.quit)
+		menubar.add_cascade(label='File', menu=fileMenu)
 		self.parent.config(menu=menubar)
 	# Create the Edit Pulldown
 		editmenu = Menu(menubar, tearoff = 0)
-		editmenu.add_command(label = "Points", command = self.EditPoints)
-		editmenu.add_command(label = "Lines", command = self.EditLines)
-		editmenu.add_command(label = "Polygons", command = self.EditPolygons)
-		menubar.add_cascade(label = "Edit", menu = editmenu)
+		editmenu.add_command(label = 'Points', command = self.EditPoints)
+		editmenu.add_command(label = 'Lines', command = self.EditLines)
+		editmenu.add_command(label = 'Polygons', command = self.EditPolygons)
+		menubar.add_cascade(label = 'Edit', menu = editmenu)
 		self.parent.config(menu=menubar)
 	# Create the Tools Pulldown
 		Toolsmenu = Menu(menubar, tearoff = 0)
-		Toolsmenu.add_command(label = "Spatial Weights", command = self.Spatial_Weights)
-		Toolsmenu.add_command(label = "Map Classification", command = self.MapClassification)
-		menubar.add_cascade(label = "Tools", menu = Toolsmenu)
+		Toolsmenu.add_command(label = 'Spatial Weights', command = self.Spatial_Weights)
+		Toolsmenu.add_command(label = 'Map Classification', command = self.MapClassification)
+		menubar.add_cascade(label = 'Tools', menu = Toolsmenu)
 		self.parent.config(menu=menubar)
 	# Create the DataVisualize Pulldown
 		DataVisualizemenu = Menu(menubar, tearoff = 0)
-		DataVisualizemenu.add_command(label = "Show Points", command = self.DataVisualizeShow_Points)
-		DataVisualizemenu.add_command(label = "Draw Map", command = self.DataVisualizeDraw_Maps)
-		menubar.add_cascade(label = "DataVisualize", menu = DataVisualizemenu)
+		DataVisualizemenu.add_command(label = 'Show Points', command = self.DataVisualizeShow_Points)
+		DataVisualizemenu.add_command(label = 'Draw Map', command = self.DataVisualizeDraw_Maps)
+		menubar.add_cascade(label = 'DataVisualize', menu = DataVisualizemenu)
 		self.parent.config(menu=menubar)
 	# Create the Statistics Pulldown
 		statisticsmenu = Menu(menubar, tearoff = 0)
-		statisticsmenu.add_command(label = "Nearest Neighbor Distance", command = self.statisticsNearNeighbor)
-		statisticsmenu.add_command(label = "Save results", command = self.statisticsresults)
-		menubar.add_cascade(label = "Statistics", menu = statisticsmenu)
+		statisticsmenu.add_command(label = 'Nearest Neighbor Distance', command = self.statisticsNearNeighbor)
+		statisticsmenu.add_command(label = 'Save results', command = self.statisticsresults)
+		menubar.add_cascade(label = 'Statistics', menu = statisticsmenu)
 		self.parent.config(menu=menubar)
 	# Create the Explore Pulldown
 		exploremenu = Menu(menubar, tearoff = 0)
-		exploremenu.add_command(label = "Nearest Neighbor Distance Patterns", command = self.ExplorePoint_Patterns)
-		menubar.add_cascade(label = "Explore", menu = exploremenu)
+		exploremenu.add_command(label = 'Nearest Neighbor Distance Patterns', command = self.ExplorePoint_Patterns)
+		menubar.add_cascade(label = 'Explore', menu = exploremenu)
 		self.parent.config(menu=menubar)
 	# Create the Help Pulldown
 		helpmenu = Menu(menubar, tearoff=0)
-		helpmenu.add_command(label = "About", command = self.HelpAbout)
-		helpmenu.add_command(label = "Tutorial", command = self.HelpTutorial)
-		menubar.add_cascade(label = "Help", menu = helpmenu)
+		helpmenu.add_command(label = 'About', command = self.HelpAbout)
+		helpmenu.add_command(label = 'Tutorial', command = self.HelpTutorial)
+		menubar.add_cascade(label = 'Help', menu = helpmenu)
 		self.parent.config(menu=menubar)
 #-------------------------------------------------------------------------  
 #menubar functions
@@ -118,7 +119,7 @@ class mydata(Frame):
 	#-------------------------------------------------------------------------
 	def FileOpen(self):	
 	#read data by string, transfer to a list, find max X, max Y, min X, min Y, reverse coordinates
-		filecontents=askopenfilename(filetypes=[ ("comma_separatedfiles","*.csv"),("textfiles","*.txt"),("excelfiles","*.xls"),("pythonfiles","*.py"),("accessfiles","*.asc"),("arcgisfiles","*.dbf"), ("spssfiles","*.sav"), ("multi_usagefiles","*.dat")])
+		filecontents=askopenfilename(filetypes=[ ('textfiles','*.txt'),('comma_separatedfiles','*.csv'),('excelfiles','*.xls'),('pythonfiles','*.py'),('accessfiles','*.asc'),('arcgisfiles','*.dbf'), ('spssfiles','*.sav'), ('multi_usagefiles','*.dat')])
 		if filecontents != None:
 			fp=open(filecontents, 'r') #fp is just the tag to open
 			filecontents=fp.readlines() #read all the lines of the file and return them as a list
@@ -126,7 +127,7 @@ class mydata(Frame):
 	#search for the x's, y's max and min and then set the scale factor
 		newdata=[] #create a new list
 		for line in filecontents[1:]: #get rid of the header
-			x, y=line.strip().split(',') 
+			x, y=line.strip().split('  ') 
 			#mydata truly read the file in a 'list'. (1)transfer to a list by split (2) get rid of extra spaces by strip
 		#print filecontents #print the original data
 			x=float(x)
@@ -161,25 +162,25 @@ class mydata(Frame):
 		
 	#-------------------------------------------------------------------------  
 	def FileSave(self):
-		print "ABC"
+		print 'ABC'
 	#-------------------------------------------------------------------------  
 	def EditPoints(self):
-		self.parent.canvas.bind("<Button-1>", self.pointclicked)
+		self.parent.canvas.bind('<Button-1>', self.pointclicked)
 				
 	#-------------------------------------------------------------------------  
 	def EditLines(self):
-		self.parent.canvas.bind("<Button-1>", self.lineclicked)
+		self.parent.canvas.bind('<Button-1>', self.lineclicked)
 
 	#-------------------------------------------------------------------------  
 	def EditPolygons(self):
-		self.parent.canvas.bind("<Button-1>", self.polugonclicked)
+		self.parent.canvas.bind('<Button-1>', self.polugonclicked)
 
 	#-------------------------------------------------------------------------  
 	def MapClassification(self): #try to import pysal?
-		print "ABC"
+		print 'ABC'
 	#-------------------------------------------------------------------------  
 	def Spatial_Weights(self): #try to import pysal?
-		print "ABC"
+		print 'ABC'
 	#-------------------------------------------------------------------------  
 	def DataVisualizeShow_Points(self):
 		for x,y in self.normalcoordinates:
@@ -224,12 +225,12 @@ class mydata(Frame):
 		#print self.w, type(self.w)
 
 		#change an array data into a string in order to save as a file
-		#self.s = "\n".join([ "\t".join(map(str,row)) for row in self.t]) #change any two point distance into a list
-		self.s = "\n".join(str(n) for n in self.w) #let nearest neighbor into a string
+		#self.s = '\n'.join([ '\t'.join(map(str,row)) for row in self.t]) #change any two point distance into a list
+		self.s = '\n'.join(str(n) for n in self.w) #let nearest neighbor into a string
 
 	#-------------------------------------------------------------------------  
 	def statisticsresults(self):
-		self.nearneighbor=tkFileDialog.asksaveasfilename(filetypes=[ ("textfile","*.txt")])
+		self.nearneighbor=tkFileDialog.asksaveasfilename(filetypes=[ ('textfile','*.txt')])
 		if self.nearneighbor != None:
 			fp=open(self.nearneighbor, 'w') #open a new file
 			fp.write(self.s)
@@ -291,18 +292,18 @@ class mydata(Frame):
 				
 		# add some
 		self.a.set_ylabel('Counts')
-		self.a.set_xlabel('Nearest Neighbor distance (meters)')
-		self.a.set_title('Number distribution of the nearest neighbor distances')
+		self.a.set_xlabel('Nearest Neighbor Distance (meters)')
+		self.a.set_title('Counts of the Nearest Neighbor Distances')
 		self.a.set_xticks(self.ind+self.width)
 		self.a.set_xticklabels( (round(self.mycenter, 2), round(self.mycenter*2, 2), round(self.mycenter*3, 2), round(self.mycenter*4, 2)) )
 		#ax.legend( (self.rects1[0], rects2[0]), ('Men', 'Women') )
 		
 		#mouse moving, mouse selecting in matplotlib & GUI in Tkinter
-		self.parent.canvas.bind("<Button-1>", self.canvasplot) #click points in the canvas
+		self.parent.canvas.bind('<Button-1>', self.canvasplot) #click points in the canvas
 		self.myplot.mpl_connect('button_press_event', self.pressbar)#click bar in the plot
 		
 
-		"""
+		
 		#open a new window
 		N=4
 		self.mycount=(self.mycount1, self.mycount2, self.mycount3, self.mycount4) #for quantities of the plot
@@ -326,26 +327,26 @@ class mydata(Frame):
 		self.fig.canvas.mpl_connect('button_press_event', self.pressbar)#click button
 						
 		#draw near-neighborhood lines after selecting the bar in the plot
-		#self.parent.canvas.bind("<Button-1>", self.linkmouse) 
+		#self.parent.canvas.bind('<Button-1>', self.linkmouse) 
 		
 		
 		#lines in canvas link with bars in the plot
 		
 
 		plt.show()		
-		"""
-
+		
 	
-	#-------------------------------------------------------------------------  
+	
+	#-------------------------------------------------------------------------
 	def HelpAbout(self):
 	#version explanations        
-		self.dialog=MessageDialog(self, title="About Simple GIS for Taiwan", message_text="Copytight(C)2016\nYan-ting (Vicky) Liau\nE-mail: yliau1@hotmail.com\nAll rights reserved")
-		result=self.dialog.activate()	
+		self.dialog=MessageDialog(self, title='About Simple GIS for Taiwan', message_text='Copytight(C)2011\nYan-ting (Vicky) Liau\n Schoold of Geographical Sciences and Urban Planning, Arizona State University\nE-mail: yliau@asu.edu\nAll rights reserved')
+		result=self.dialog.activate()
 	#-------------------------------------------------------------------------  
 	def HelpTutorial(self):
-		print "ABC"
+		print 'ABC'
 		#open a pdf
-
+	
 #-------------------------------------------------------------------------
 #########################################################################################################################
 #after plotting, when click the point on the canvas
@@ -356,7 +357,7 @@ class mydata(Frame):
 		else: #select point and change into red color
 			self.OrgX, self.OrgY = event.x, event.y #catch the coordinates
 			self. mousearray=num.array([self.OrgX, self.OrgY])
-			s = "Simple GIS: "+"Clicked Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY)
+			s = 'Simple GIS: '+'Clicked Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY)
 			self.parent.title(s)
 			
 			#self.myplot.mpl_connect('axes_leave_event', self.pointlink)
@@ -396,7 +397,7 @@ class mydata(Frame):
 
 				else:
 					pass
-				"""
+	
 
 	def pointlink(self, event):
 		for i, s in enumerate(self.normalcoordinates):
@@ -425,37 +426,37 @@ class mydata(Frame):
 					self.a.bar(self.ind, self.mycount,self.width, color=colors)
 				else:
 					pass
-			"""
+	
 #-------------------------------------------------------------------------
 #########################################################################################################################
+	
 #digitize points, lines and polygon
 	def pointclicked(self, event):
 		self.OrgX, self.OrgY = event.x, event.y #catch the coordinates
-		s = "Simple GIS: "+"Clicked Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY) #change back to original coordinates?  
+		s = 'Simple GIS: '+'Clicked Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY) #change back to original coordinates?  
         	self.parent.title(s)
 		self.parent.canvas.create_oval(self.OrgX, self.OrgY, self.OrgX+4,self.OrgY+4,fill='blue') 
 
 #-------------------------------------------------------------------------
 	def lineclicked(self, event):
 		self.OrgX, self.OrgY = event.x, event.y
-		s = "Simple GIS: "+"Clicked Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY)
+		s = 'Simple GIS: '+'Clicked Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY)
 		self.parent.title(s)
 		self.parent.canvas.create_line(self.OrgX, self.OrgY, self.OrgX+1, self.OrgY+1,fill='green') #?
 
 #-------------------------------------------------------------------------
 	def polygonclicked(self, event):
 		self.OrgX, self.OrgY = event.x, event.y
-		s = "Simple GIS: "+"Clicked Coordinate at x=%s  y=%s" % (self.OrgX, self.OrgY)
+		s = 'Simple GIS: '+'Clicked Coordinate at x=%s  y=%s' % (self.OrgX, self.OrgY)
 		self.parent.title(s)
 		#self.parent.canvas.create_line(self.OrgX, self.OrgY, self.OrgX,self.OrgY,fill='blue') #?
-
 #-------------------------------------------------------------------------
 #######################################################################################################################
 #when click the plot
 	def pressbar(self, event):
 		x=event.xdata # the clicked locations
 		y=event.ydata
-		print "Clicked Coordinate at x=%s  y=%s" % (x,y) #any selected point
+		print 'Clicked Coordinate at x=%s  y=%s' % (x,y) #any selected point
 		event.canvas.figure.patch.set_facecolor('green') #work for outside canvas
     		event.canvas.draw()
 
@@ -511,15 +512,22 @@ class mydata(Frame):
 		else:
 			pass
 
-
 #-------------------------------------------------------------------------
 def main():
 	root = Tk()
-	root.geometry("%dx%d+%d+%d" % (1100,680,150800,2798337))
-	root.maxsize(1100,680)
-	root.minsize(1100,680)
-	root.title("Simple GIS for Taiwan")
-	app = mydata(root)
+	w=1100
+	h=680
+	ws = root.winfo_screenwidth() # width of the screen
+	hs = root.winfo_screenheight() # height of the screen
+	#x = (150800/2) - (w/2)
+	#y = (2798337/2) - (h/2)
+	x = (ws/2) - (w/2)
+	y = (hs/2) - (h/2)
+	root.geometry('%dx%d+%d+%d' % (w,h,x,y))
+	root.maxsize(w,h)
+	root.minsize(w,h)
+	root.title('Simple GIS for Taiwan')
+	mydata(root)
 	root.mainloop()  
 #------------------------------------------------------------------------- 
 if __name__ == '__main__':
